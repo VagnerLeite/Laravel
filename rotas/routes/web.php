@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/ola', function () {
+    return '<h1>Seja bem vindo</h1>';
+});
+
+Route::get('/ola/sejabemvindo', function () {
+    return '<h1>Ola visitante, seja bem vindo</h1>';
+});
