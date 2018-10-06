@@ -68,3 +68,32 @@ Route::prefix('app')->group(function(){
        return "Meu about";
     }); 
 });
+
+#### Redirecionamento de rotas
+#### Parametros: DE, PARA, Protocolo HTTP
+#### Tudo que chegar no '/aqui' vai redirecionar pro '/ola'
+Route::redirect('/aqui', '/ola', 301);
+
+#### Redirecionar diretamente para view
+Route::get('/hello', function () {
+    return view('hello');
+});
+
+#### De outra forma:
+Route::view('/helloo', 'hello');
+
+
+#### Agora passando parametros:
+#### O primeiro parametro é a rota, o segundo é o nome da view (que antecede o .blade) e o terceiro é o array de valore (array associativo)
+Route::view('/viewname'
+            , 'helloname'
+            , ['nome' => 'Vagner' , 'sobrenome' => 'Leite']
+           );
+
+#### E aqui dessa, forma eu defino uma rota que retorna uma view e envia os parametros de variaveis recebidas 
+Route::get('/helloname/{nome}/{sobrenome}', function($nome, $sn){
+    $arrNome = ['nome' => $nome, 'sobrenome' => $sn]; # possofazer assim, ou simplesmente jogar direto o array ali embaixo, achei assim mais limpo de entender;
+    return view('helloname'
+                , $arrNome
+               );
+});
