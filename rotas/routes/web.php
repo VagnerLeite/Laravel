@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
@@ -72,6 +73,7 @@ Route::prefix('app')->group(function(){
 #### Redirecionamento de rotas
 #### Parametros: DE, PARA, Protocolo HTTP
 #### Tudo que chegar no '/aqui' vai redirecionar pro '/ola'
+#### quando eu redireciono, ele o faz aceitando todos os metodos Http
 Route::redirect('/aqui', '/ola', 301);
 
 #### Redirecionar diretamente para view
@@ -124,4 +126,60 @@ Route::patch('/rest/hello', function(){
 Route::options('/rest/hello', function(){
     return "Hello (OPTIONS)";
 });
+
+Route::post('/rest/imprimir', function(Request $req){
+    $nome = $req->input('nome');
+    $idade = $req->input('idade');
+    $telefone = $req->input('telefone');
+    
+    return "Http POST: <br /> 
+            Nome: ($nome, $idade) <br />
+            Telefone: $telefone";
+    
+    #### Ou eu poderia retornar um Json se eu quisesse
+    $arrUsuario = array('nome' => $nome, 'idade' => $idade, 'telefone' => $telefone);
+    return json_encode($arrUsuario);
+});
+
+#### O primeiro parametro do match vai ser quais os metodos http que eu vou atender nessa requisição
+#### O Segundo parâmetro é qual rota que eu vou atender nessa requisição;
+#### O Terceiro Parametro é o que vamos fazer assimq ue chegar a requisição;
+Route::match(['get', 'post'], '/rest/hello2', function(){
+    return "Hello fucking World 2";
+});
+
+#### Aqui eu configuro para atender a qualquer metodo http que chega na minha requisição, não tem muito sentido usar dessa forma, mas é possivel fazê-lo se quiser
+Route::any('/rest/hello3', function(){
+    return "Hello fucking World 3. Any methods!";
+});
+
+
+Route::get('/produtos', function(){
+    echo "<h1>Produtos</h1>"; 
+    echo "<ol>";
+        echo "<li>Notebook</li>";
+        echo "<li>Desktop</li>";
+        echo "<li>Monitor</li>";
+        echo "<li>Mouse</li>";
+    echo "</ol>";
+})->name('meusprodutos');
+
+#### Aqui eu passo o link da rota acima usando o nome dela, se meu sistema algum dia precisar mudar o nome da rota produtos para meusprodutos, eu posso fazer isso mudando/atribuindo o nome para a rota ao inves de mudar a rota e depois mudar todas as chamadas do meu sistema onde tem o '/produtos'
+
+#### E se mesmo assim alguem foi la e precisou mudar o nome da rota para '/produtosssss' eunao preciso me preocupar, pois eu estou usando o nome da rota, isso pouca trabalho desnecessario
+Route::get('/linkprodutos', function(){
+    $url = route('meusprodutos');
+    echo "<a href=\"$url\">Meus Produtos</a>";
+});
+
+
+Route::get('/redirecionarprodutos', function(){
+    #### Aqui neste caso, eu poderia redirecionar direto para o '/produtos', mas não sao boas praticas, pois se alterar o nome da rota, fode todas as chamadas do sistema
+    return redirect()->route('meusprodutos'); 
+});
+
+
+
+
+
 
