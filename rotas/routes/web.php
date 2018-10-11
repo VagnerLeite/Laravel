@@ -1,15 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
@@ -178,6 +168,22 @@ Route::get('/redirecionarprodutos', function(){
     return redirect()->route('meusprodutos'); 
 });
 
+
+#### A Partir daqui começa os testes de Controllers
+#### Quando quero chamar um controlador na Rota uso o Nome do Controlador @ function
+Route::get('/nomes', 'MyController@getNome');
+
+Route::get('/idades', 'MyController@getIdade');
+
+Route::get('/multiplicar/{n1}/{n2}', 'MyController@multiplicar');
+
+Route::get('/nomes/{id}', 'MyController@getNomeById');
+
+#### Quando eu crio a rota com ':resource' => Ja cria com todos os métodos HTTP prontos: Index, create, Store, Show, Edit, Update e Destroy.. Nosso famoso CRUD
+Route::resource('/cliente', 'ClienteController');
+
+#### Aqui eu especifico um determinado metodo para acessar no meu controller
+Route::post('/cliente/requisitar', 'ClienteController@requisitar');
 
 
 

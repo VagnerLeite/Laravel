@@ -21,5 +21,6 @@ class VerifyCsrfToken extends Middleware
     #### Aqui eu adiciono a rota aqui, e tudo que for pra ca, nao fará a verificação de Csrf
     protected $except = [
         '/rest*'
+        , '/cliente*'
     ];
 }
