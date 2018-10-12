@@ -187,5 +187,12 @@ Route::post('/cliente/requisitar', 'ClienteController@requisitar');
 
 
 
+##### Aula de Views
+Route::get('/primeiraView', function(){
+   return view('myView'); 
+});
+
+
+
 
 
